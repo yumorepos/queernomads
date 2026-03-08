@@ -1,0 +1,242 @@
+/* ═══════════════════════════════════════════════════════════════
+   QueerNomads — Custom Theme
+   Warm, inclusive, tasteful rainbow accents
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --bg-dark: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-card-hover: #1a2747;
+    --text-primary: #eee;
+    --text-secondary: #a0a0b8;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --rainbow-1: #ff6b6b;
+    --rainbow-2: #ffa502;
+    --rainbow-3: #ffd93d;
+    --rainbow-4: #6bcb77;
+    --rainbow-5: #4d96ff;
+    --rainbow-6: #9b59b6;
+    --border-color: #2a2a4a;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main { flex: 1; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+/* ─── Rainbow text ─────────────────────────────────────────── */
+.rainbow-text {
+    background: linear-gradient(90deg, var(--rainbow-1), var(--rainbow-2), var(--rainbow-3), var(--rainbow-4), var(--rainbow-5), var(--rainbow-6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* ─── Navbar ───────────────────────────────────────────────── */
+.navbar {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 0;
+}
+
+.navbar-brand { font-size: 1.3rem; font-weight: 700; }
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    transition: color 0.2s;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover { color: var(--text-primary) !important; }
+
+.btn-register {
+    background: linear-gradient(135deg, var(--rainbow-5), var(--rainbow-6));
+    color: white !important;
+    border-radius: 20px;
+    padding: 0.4rem 1.2rem !important;
+    margin-left: 0.5rem;
+}
+
+/* ─── Hero ─────────────────────────────────────────────────── */
+.hero-section {
+    background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(77, 150, 255, 0.1));
+    border-radius: 16px;
+    padding: 3rem;
+}
+
+/* ─── Cards ────────────────────────────────────────────────── */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.story-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+}
+
+.card-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.card-title a:hover { color: var(--accent); }
+
+.card-footer { border-top: 1px solid var(--border-color); }
+.card-footer a { color: var(--text-secondary); }
+.card-footer a:hover { color: var(--accent); }
+
+.auth-card {
+    border: 1px solid var(--border-color);
+    max-width: 420px;
+    margin: 2rem auto;
+}
+
+.profile-card { text-align: center; }
+
+/* ─── Buttons ──────────────────────────────────────────────── */
+.btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.btn-outline-primary {
+    color: var(--accent);
+    border-color: var(--accent);
+    border-radius: 8px;
+}
+
+.btn-outline-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.btn-outline-secondary {
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+    border-radius: 8px;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+}
+
+/* ─── Forms ────────────────────────────────────────────────── */
+.form-control, .form-select {
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    background: var(--bg-dark);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 0.2rem rgba(233, 69, 96, 0.25);
+}
+
+.form-label { color: var(--text-secondary); font-weight: 500; }
+.form-text { color: var(--text-secondary); }
+
+/* ─── Category Badges ──────────────────────────────────────── */
+.bg-category-nightlife { background: var(--rainbow-6) !important; }
+.bg-category-safety { background: var(--rainbow-1) !important; }
+.bg-category-community { background: var(--rainbow-4) !important; }
+.bg-category-accommodation { background: var(--rainbow-5) !important; }
+.bg-category-general { background: var(--rainbow-2) !important; }
+
+.badge { font-weight: 500; font-size: 0.75rem; padding: 0.35em 0.8em; border-radius: 6px; }
+
+/* ─── Rating Stars ─────────────────────────────────────────── */
+.rating { color: var(--rainbow-3); font-size: 0.9rem; }
+
+/* ─── Destination ──────────────────────────────────────────── */
+.destination {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.destination i { color: var(--accent); }
+
+/* ─── Story Full View ──────────────────────────────────────── */
+.story-full { }
+
+.story-meta {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.story-meta a { color: var(--accent); }
+
+.story-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-top: 1.5rem;
+}
+
+/* ─── Alerts ───────────────────────────────────────────────── */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background: rgba(107, 203, 119, 0.15);
+    color: var(--rainbow-4);
+}
+
+.alert-info {
+    background: rgba(77, 150, 255, 0.15);
+    color: var(--rainbow-5);
+}
+
+.alert-danger {
+    background: rgba(233, 69, 96, 0.15);
+    color: var(--rainbow-1);
+}
+
+.btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+
+/* ─── Footer ───────────────────────────────────────────────── */
+.footer {
+    background: rgba(22, 33, 62, 0.8);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer a { color: var(--accent); }
+.footer a:hover { color: var(--accent-hover); }
+
+/* ─── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .hero-section { padding: 2rem 1rem; }
+    .hero-section h1 { font-size: 1.8rem; }
+}

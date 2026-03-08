@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <h2 class="mb-4">Edit Your Profile</h2>
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="pronouns" class="form-label">Pronouns</label>
+                        <input type="text" class="form-control" id="pronouns" name="pronouns" value="{{ user.pronouns }}" placeholder="e.g., they/them, she/her, he/him">
+                    </div>
+                    <div class="mb-3">
+                        <label for="home_city" class="form-label">Home City</label>
+                        <input type="text" class="form-control" id="home_city" name="home_city" value="{{ user.home_city }}" placeholder="e.g., Montreal, Canada">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea class="form-control" id="bio" name="bio" rows="4" placeholder="Tell the community about yourself...">{{ user.bio }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="countries_visited" class="form-label">Countries Visited</label>
+                        <textarea class="form-control" id="countries_visited" name="countries_visited" rows="2" placeholder="e.g., Canada, Germany, Thailand, Japan...">{{ user.countries_visited }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="/profile/{{ user.id }}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

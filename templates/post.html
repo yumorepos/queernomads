@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block title %}Share a Story{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <h2 class="mb-4">✍️ Share Your Travel Story</h2>
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Story Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g., A weekend in Berlin's queer scene" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="destination" class="form-label">Destination</label>
+                            <input type="text" class="form-control" id="destination" name="destination" placeholder="e.g., Berlin, Germany" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Select...</option>
+                                <option value="general">General</option>
+                                <option value="nightlife">Nightlife</option>
+                                <option value="safety">Safety</option>
+                                <option value="community">Community</option>
+                                <option value="accommodation">Accommodation</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="rating" class="form-label">Rating</label>
+                            <select class="form-select" id="rating" name="rating" required>
+                                <option value="">Rate...</option>
+                                <option value="5">★★★★★</option>
+                                <option value="4">★★★★☆</option>
+                                <option value="3">★★★☆☆</option>
+                                <option value="2">★★☆☆☆</option>
+                                <option value="1">★☆☆☆☆</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Your Story</label>
+                        <textarea class="form-control" id="body" name="body" rows="10" placeholder="Share your experience — what made it great, what to watch out for, tips for other queer travellers..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publish Story</button>
+                    <a href="/" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

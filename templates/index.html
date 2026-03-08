@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section text-center py-5 mb-4">
+    <h1 class="display-4 fw-bold">Travel the world. <span class="rainbow-text">Be yourself.</span></h1>
+    <p class="lead text-muted mt-3">
+        A community of queer digital nomads sharing travel stories, safety tips, and hidden gems from around the globe.
+    </p>
+    <div class="mt-4">
+        <a href="/browse" class="btn btn-primary btn-lg me-2">Browse Stories</a>
+        {% if not current_user %}
+        <a href="/register" class="btn btn-outline-primary btn-lg">Join the Community</a>
+        {% else %}
+        <a href="/post" class="btn btn-outline-primary btn-lg">Share Your Story</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Stories -->
+<h2 class="mb-4">🌍 Recent Stories</h2>
+
+{% if stories %}
+<div class="row g-4">
+    {% for story in stories %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card story-card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge bg-category-{{ story.category }}">{{ story.category | title }}</span>
+                    <span class="rating">
+                        {% for i in range(story.rating) %}★{% endfor %}{% for i in range(5 - story.rating) %}☆{% endfor %}
+                    </span>
+                </div>
+                <h5 class="card-title">
+                    <a href="/story/{{ story.id }}">{{ story.title }}</a>
+                </h5>
+                <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
+                <p class="card-text text-muted">{{ story.body[:150] }}{% if story.body|length > 150 %}...{% endif %}</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <small class="text-muted">
+                    by <a href="/profile/{{ story.user_id }}">{{ story.username }}</a>
+                    {% if story.pronouns %}({{ story.pronouns }}){% endif %}
+                    · {{ story.created_at[:10] }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted fs-5">No stories yet. Be the first to share! 🌈</p>
+    {% if current_user %}
+    <a href="/post" class="btn btn-primary">Share a Story</a>
+    {% else %}
+    <a href="/register" class="btn btn-primary">Join & Share</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

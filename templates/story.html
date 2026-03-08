@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}{{ story.title }}{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <a href="/browse" class="text-decoration-none mb-3 d-inline-block">← Back to stories</a>
+        
+        <article class="story-full mt-3">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-category-{{ story.category }} fs-6">{{ story.category | title }}</span>
+                <span class="rating fs-5">
+                    {% for i in range(story.rating) %}★{% endfor %}{% for i in range(5 - story.rating) %}☆{% endfor %}
+                </span>
+            </div>
+
+            <h1 class="mb-2">{{ story.title }}</h1>
+            
+            <p class="destination fs-5 mb-3">
+                <i class="bi bi-geo-alt"></i> {{ story.destination }}
+            </p>
+            
+            <div class="story-meta mb-4">
+                <span>
+                    by <a href="/profile/{{ story.user_id }}">{{ story.username }}</a>
+                    {% if story.pronouns %}({{ story.pronouns }}){% endif %}
+                </span>
+                {% if story.home_city %}
+                <span class="ms-3"><i class="bi bi-house"></i> from {{ story.home_city }}</span>
+                {% endif %}
+                <span class="ms-3"><i class="bi bi-calendar"></i> {{ story.created_at[:10] }}</span>
+            </div>
+
+            <div class="story-body">
+                {{ story.body | replace('\n', '<br>') | safe }}
+            </div>
+        </article>
+
+        {% if current_user and current_user.id == story.user_id %}
+        <div class="mt-4">
+            <small class="text-muted">This is your story.</small>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
