@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}{{ city.name }}{% endblock %}
+{% block content %}
+<a href="/cities" class="text-decoration-none">← Back to cities</a>
+<section class="mt-3 mb-4">
+  <h1>{{ city.name }}, {{ city.country }}</h1>
+  <p class="lead text-muted">{{ city.summary }}</p>
+  <div class="d-flex gap-2 flex-wrap">
+    <span class="score-pill">Balanced {{ city.balanced_score }}</span>
+    <span class="score-pill">Remote {{ city.remote_work_score }}</span>
+    <span class="score-pill">Community {{ city.community_score }}</span>
+    <span class="badge bg-dark-subtle text-light">Confidence: {{ city.confidence }}</span>
+    <span class="badge bg-dark-subtle text-light">{{ city.region }}</span>
+  </div>
+</section>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card mb-4"><div class="card-body">
+      <h4>Dimension breakdown</h4>
+      {% for dim in city.dimensions %}
+      <div class="mb-3 pb-2 border-bottom border-secondary-subtle">
+        <div class="d-flex justify-content-between"><strong>{{ dim.label }}</strong><strong>{{ dim.value|int }}</strong></div>
+        <small class="text-muted">{{ dim.evidence_note }} · {{ dim.source_count }} sources · {{ dim.confidence }} confidence</small>
+      </div>
+      {% endfor %}
+    </div></div>
+
+    <div class="card"><div class="card-body">
+      <h4>Community insights from {{ city.name }}</h4>
+      {% if insights %}
+      {% for story in insights %}
+      <div class="mb-3"><a href="/story/{{ story.id }}" class="fw-semibold">{{ story.title }}</a><p class="text-muted small mb-0">by {{ story.username }} · {{ story.category|title }}</p></div>
+      {% endfor %}
+      {% else %}<p class="text-muted">No linked stories yet. Be the first to share local insight.</p>{% endif %}
+    </div></div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card mb-4"><div class="card-body"><h5>Queer nomad reality check</h5><p>{{ city.queer_nomad_note }}</p></div></div>
+    <div class="card"><div class="card-body"><h5>Strengths</h5><ul>{% for s in city.strengths %}<li>{{ s }}</li>{% endfor %}</ul><h5>Tradeoffs</h5><ul>{% for t in city.tradeoffs %}<li>{{ t }}</li>{% endfor %}</ul></div></div>
+  </div>
+</div>
+{% endblock %}

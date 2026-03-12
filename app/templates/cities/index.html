@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}Cities{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-2 flex-wrap gap-2">
+  <div>
+    <h1>Cities</h1>
+    <p class="text-muted mb-0">Discovery and rankings for queer digital nomad decisions.</p>
+  </div>
+</div>
+<p class="text-muted mb-4">Active ranking mode: <strong>{{ presets[preset].label }}</strong> — {{ presets[preset].description }}</p>
+
+<div class="card mb-4"><div class="card-body">
+  <form class="row g-3">
+    <div class="col-md-3">
+      <label class="form-label">Best for preset</label>
+      <select name="preset" class="form-select">
+        {% for key, meta in presets.items() %}
+        <option value="{{ key }}" {% if preset == key %}selected{% endif %}>{{ meta.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2"><label class="form-label">Region</label><select name="region" class="form-select"><option value="">All</option>{% for region in regions %}<option value="{{ region }}" {% if selected_region==region %}selected{% endif %}>{{ region }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><label class="form-label">Cost</label><select name="cost_level" class="form-select"><option value="">Any</option><option value="low" {% if selected_cost=='low' %}selected{% endif %}>Low</option><option value="medium" {% if selected_cost=='medium' %}selected{% endif %}>Medium</option><option value="high" {% if selected_cost=='high' %}selected{% endif %}>High</option></select></div>
+    <div class="col-md-2"><label class="form-label">Min score</label><input type="number" class="form-control" min="0" max="100" name="min_score" value="{{ min_score }}"></div>
+    <div class="col-md-2"><label class="form-label">Sort</label><select name="sort" class="form-select"><option value="score_desc" {% if sort=='score_desc' %}selected{% endif %}>Highest score</option><option value="score_asc" {% if sort=='score_asc' %}selected{% endif %}>Lowest score</option><option value="name_asc" {% if sort=='name_asc' %}selected{% endif %}>Name A–Z</option></select></div>
+    <div class="col-md-1 d-grid"><label class="form-label">&nbsp;</label><button class="btn btn-primary">Go</button></div>
+  </form>
+</div></div>
+
+{% if cities %}
+<div class="row g-4">
+{% for city in cities %}
+<div class="col-md-6 col-xl-4">
+  <div class="card city-card h-100">
+    <div class="card-body">
+      <div class="d-flex justify-content-between"><h5>{{ city.name }}</h5><span class="score-pill">{{ city.active_score }}</span></div>
+      <p class="text-muted">{{ city.country }} · {{ city.region }} · {{ city.cost_level|title }} cost</p>
+      <p>{{ city.summary }}</p>
+      <p class="small text-muted mb-2"><strong>Why it ranks:</strong> {{ city.strengths|join(', ') }}</p>
+      <p class="small text-muted"><strong>Watchouts:</strong> {{ city.tradeoffs|join(', ') }}</p>
+      <a class="btn btn-outline-primary btn-sm" href="/cities/{{ city.slug }}">Open city intelligence</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5"><p class="text-muted">No cities match this filter set. Try lowering the minimum score or switching preset.</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "lisbon",
+    "name": "Lisbon",
+    "country": "Portugal",
+    "region": "Europe",
+    "summary": "Creative, sunny, and walkable with a strong remote-work ecosystem.",
+    "queer_nomad_note": "Visible queer community and events, with occasional housing pressure tradeoffs.",
+    "cost_level": "medium",
+    "timezone": "WET",
+    "confidence": "medium"
+  },
+  {
+    "slug": "mexico-city",
+    "name": "Mexico City",
+    "country": "Mexico",
+    "region": "Latin America",
+    "summary": "Massive cultural scene, excellent food, and deep neighborhood variety.",
+    "queer_nomad_note": "Queer life is vibrant in key neighborhoods; urban safety patterns require local awareness.",
+    "cost_level": "medium",
+    "timezone": "CST",
+    "confidence": "medium"
+  },
+  {
+    "slug": "bangkok",
+    "name": "Bangkok",
+    "country": "Thailand",
+    "region": "Asia",
+    "summary": "High convenience, strong nomad infrastructure, and great value.",
+    "queer_nomad_note": "Welcoming social atmosphere in many spaces, with mixed legal and policy realities.",
+    "cost_level": "low",
+    "timezone": "ICT",
+    "confidence": "medium"
+  },
+  {
+    "slug": "berlin",
+    "name": "Berlin",
+    "country": "Germany",
+    "region": "Europe",
+    "summary": "Rich queer history, nightlife, and progressive cultural networks.",
+    "queer_nomad_note": "Strong inclusivity signal but higher cost and bureaucracy can slow soft landings.",
+    "cost_level": "high",
+    "timezone": "CET",
+    "confidence": "high"
+  }
+]

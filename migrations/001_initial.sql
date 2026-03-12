@@ -1,4 +1,4 @@
--- QueerNomads schema: community + city intelligence
+-- 001 initial schema
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
@@ -51,9 +51,6 @@ CREATE TABLE IF NOT EXISTS city_scores (
 CREATE TABLE IF NOT EXISTS city_snapshots (
     city_id INTEGER PRIMARY KEY,
     overall_score REAL NOT NULL,
-    balanced_score REAL,
-    remote_work_score REAL,
-    community_score REAL,
     strengths TEXT NOT NULL,
     tradeoffs TEXT NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

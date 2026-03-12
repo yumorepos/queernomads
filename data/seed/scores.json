@@ -1,0 +1,39 @@
+{
+  "dimensions": [
+    {"key":"affordability","label":"Affordability","description":"Daily cost pressure for housing, food, and coworking.","weight_default":1.2},
+    {"key":"safety","label":"Safety","description":"Personal safety and comfort for queer travelers.","weight_default":1.3},
+    {"key":"inclusivity","label":"Inclusivity","description":"Cultural/legal inclusivity and social acceptance.","weight_default":1.5},
+    {"key":"internet","label":"Internet Quality","description":"Reliability and speed for remote work.","weight_default":1.0},
+    {"key":"livability","label":"Livability","description":"Climate, mobility, and day-to-day quality of life.","weight_default":1.0},
+    {"key":"community","label":"Community Potential","description":"Queer community visibility and opportunity for belonging.","weight_default":1.4}
+  ],
+  "scores": [
+    {"city_slug":"lisbon","dimension_key":"affordability","score":62,"evidence_note":"Rents have climbed but still moderate versus major US hubs.","source_count":4,"confidence":"medium"},
+    {"city_slug":"lisbon","dimension_key":"safety","score":78,"evidence_note":"Generally safe with typical city-night precautions.","source_count":5,"confidence":"medium"},
+    {"city_slug":"lisbon","dimension_key":"inclusivity","score":80,"evidence_note":"Visible queer life and relatively progressive social climate.","source_count":4,"confidence":"medium"},
+    {"city_slug":"lisbon","dimension_key":"internet","score":82,"evidence_note":"Reliable city-wide broadband and coworking options.","source_count":4,"confidence":"medium"},
+    {"city_slug":"lisbon","dimension_key":"livability","score":84,"evidence_note":"Strong weather and walkability with tourist congestion tradeoff.","source_count":4,"confidence":"medium"},
+    {"city_slug":"lisbon","dimension_key":"community","score":79,"evidence_note":"Growing nomad and queer social ecosystem.","source_count":3,"confidence":"medium"},
+
+    {"city_slug":"mexico-city","dimension_key":"affordability","score":74,"evidence_note":"Good value if earning stronger currencies; variance by district.","source_count":5,"confidence":"medium"},
+    {"city_slug":"mexico-city","dimension_key":"safety","score":60,"evidence_note":"Block-by-block safety profile needs informed choices.","source_count":6,"confidence":"medium"},
+    {"city_slug":"mexico-city","dimension_key":"inclusivity","score":76,"evidence_note":"Strong queer scenes with diverse community spaces.","source_count":5,"confidence":"medium"},
+    {"city_slug":"mexico-city","dimension_key":"internet","score":77,"evidence_note":"Solid coverage in core neighborhoods.","source_count":4,"confidence":"medium"},
+    {"city_slug":"mexico-city","dimension_key":"livability","score":72,"evidence_note":"Cultural depth with traffic/air quality tradeoffs.","source_count":4,"confidence":"medium"},
+    {"city_slug":"mexico-city","dimension_key":"community","score":84,"evidence_note":"Large and varied local + expat queer communities.","source_count":5,"confidence":"medium"},
+
+    {"city_slug":"bangkok","dimension_key":"affordability","score":86,"evidence_note":"Excellent value for housing, food, and transport.","source_count":6,"confidence":"high"},
+    {"city_slug":"bangkok","dimension_key":"safety","score":73,"evidence_note":"Generally manageable urban safety profile.","source_count":5,"confidence":"medium"},
+    {"city_slug":"bangkok","dimension_key":"inclusivity","score":68,"evidence_note":"Socially open in many contexts, legal complexity remains.","source_count":4,"confidence":"medium"},
+    {"city_slug":"bangkok","dimension_key":"internet","score":88,"evidence_note":"Very strong connectivity and cafe/cowork coverage.","source_count":5,"confidence":"high"},
+    {"city_slug":"bangkok","dimension_key":"livability","score":70,"evidence_note":"Convenient but heat/air quality may be challenging.","source_count":4,"confidence":"medium"},
+    {"city_slug":"bangkok","dimension_key":"community","score":72,"evidence_note":"Good social options, especially in central districts.","source_count":4,"confidence":"medium"},
+
+    {"city_slug":"berlin","dimension_key":"affordability","score":48,"evidence_note":"Housing competition and costs are key pain points.","source_count":6,"confidence":"high"},
+    {"city_slug":"berlin","dimension_key":"safety","score":82,"evidence_note":"Relatively strong urban safety indicators.","source_count":5,"confidence":"high"},
+    {"city_slug":"berlin","dimension_key":"inclusivity","score":90,"evidence_note":"Strong queer rights context and community visibility.","source_count":6,"confidence":"high"},
+    {"city_slug":"berlin","dimension_key":"internet","score":76,"evidence_note":"Reliable overall though not top-tier globally.","source_count":4,"confidence":"medium"},
+    {"city_slug":"berlin","dimension_key":"livability","score":75,"evidence_note":"Excellent transit and culture, weather tradeoff.","source_count":4,"confidence":"medium"},
+    {"city_slug":"berlin","dimension_key":"community","score":89,"evidence_note":"Deep, diverse queer social and creative networks.","source_count":6,"confidence":"high"}
+  ]
+}
