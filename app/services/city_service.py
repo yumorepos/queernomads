@@ -1,5 +1,6 @@
 """Read-only city data access for city-intelligence routes."""
 
+from dataclasses import dataclass
 from datetime import date
 
 from app.models.city import City, CityScoreMetadata
@@ -70,21 +71,70 @@ CITY_SEED_DATA = [
 ]
 
 
-def get_all_cities(sort_by: str = "overall_score", descending: bool = True) -> list[City]:
-    """Return all cities sorted by one supported field."""
-    allowed_sort_keys = {
-        "overall_score": lambda city: city.overall_score,
-        "name": lambda city: city.name.lower(),
-        "affordability": lambda city: city.affordability,
-        "safety": lambda city: city.safety,
-        "internet": lambda city: city.internet,
-        "weather": lambda city: city.weather,
-        "inclusivity": lambda city: city.inclusivity,
-    }
+ALLOWED_SORT_FIELDS = {
+    "overall_score": lambda city: city.overall_score,
+    "name": lambda city: city.name.lower(),
+    "affordability": lambda city: city.affordability,
+    "safety": lambda city: city.safety,
+    "internet": lambda city: city.internet,
+    "weather": lambda city: city.weather,
+    "inclusivity": lambda city: city.inclusivity,
+}
 
-    key_fn = allowed_sort_keys.get(sort_by, allowed_sort_keys["overall_score"])
-    reverse = descending if sort_by != "name" else False
-    return sorted(CITY_SEED_DATA, key=key_fn, reverse=reverse)
+
+@dataclass(frozen=True)
+class CityDiscoveryParams:
+    """Query contract for city discovery listing."""
+
+    q: str = ""
+    region: str = ""
+    sort: str = "overall_score"
+    min_affordability: float | None = None
+    min_safety: float | None = None
+    min_internet: float | None = None
+    min_weather: float | None = None
+    min_inclusivity: float | None = None
+
+
+def get_regions() -> list[str]:
+    """Return sorted unique regions available in city seed data."""
+    return sorted({city.region for city in CITY_SEED_DATA})
+
+
+def get_all_cities(params: CityDiscoveryParams | None = None) -> list[City]:
+    """Return all cities with optional search/filter/sort discovery parameters."""
+    if params is None:
+        params = CityDiscoveryParams()
+
+    filtered = CITY_SEED_DATA
+
+    if params.q:
+        normalized_query = params.q.lower()
+        filtered = [
+            city
+            for city in filtered
+            if normalized_query in city.name.lower() or normalized_query in city.country.lower()
+        ]
+
+    if params.region:
+        filtered = [city for city in filtered if city.region == params.region]
+
+    threshold_filters = [
+        ("affordability", params.min_affordability),
+        ("safety", params.min_safety),
+        ("internet", params.min_internet),
+        ("weather", params.min_weather),
+        ("inclusivity", params.min_inclusivity),
+    ]
+
+    for field_name, threshold in threshold_filters:
+        if threshold is not None:
+            filtered = [city for city in filtered if getattr(city, field_name) >= threshold]
+
+    sort_key = ALLOWED_SORT_FIELDS.get(params.sort, ALLOWED_SORT_FIELDS["overall_score"])
+    reverse = False if params.sort == "name" else True
+
+    return sorted(filtered, key=sort_key, reverse=reverse)
 
 
 def get_city_by_slug(slug: str) -> City | None:
