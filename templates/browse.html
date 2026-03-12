@@ -2,7 +2,10 @@
 {% block title %}Browse Stories{% endblock %}
 {% block content %}
 
-<h2 class="mb-4">🔍 Browse Stories</h2>
+<section class="page-intro mb-4">
+    <h1 class="section-title mb-2">🌍 Community Stories</h1>
+    <p class="text-muted mb-0">Read lived experience context from queer nomads and pair it with city intelligence before you decide.</p>
+</section>
 
 <!-- Search & Filters -->
 <div class="card mb-4">
@@ -29,6 +32,8 @@
         </form>
     </div>
 </div>
+
+<p class="notice-link-row text-muted mb-4">Need structured city signals too? <a href="/cities">Explore city intelligence</a> and <a href="/methodology">read methodology</a>.</p>
 
 <!-- Results -->
 {% if stories %}

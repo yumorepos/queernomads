@@ -2,6 +2,15 @@
 
 ## Phased Rollout Plan
 
+## Implementation Status Snapshot
+- ✅ Phase 1: Strategy and foundation docs completed.
+- ✅ Phase 2: Flask modularization completed.
+- ✅ Phase 3: City data contract + first read-only routes completed.
+- ✅ Phase 4: Discovery filtering/sorting experience completed.
+- ✅ Phase 5: City detail deepening + methodology layer completed.
+- ✅ Phase 6: Homepage repositioning + shared trust signals completed.
+- 🔄 Phase 7: Cleanup, hardening, and repo polish in progress.
+
 ## Phase 1 — Strategy and Foundation (current)
 - Audit repository architecture and UX baseline.
 - Create planning docs for positioning, roadmap, and technical assessment.

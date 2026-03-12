@@ -1,5 +1,6 @@
 """Application factory for QueerNomads."""
 
+import os
 from pathlib import Path
 
 from flask import Flask, session
@@ -11,6 +12,7 @@ from app.services.db_service import close_db, get_user_by_id, init_db
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+DEFAULT_DEV_SECRET = "queernomads-dev-secret-key-change-in-production"
 
 
 def create_app() -> Flask:
@@ -21,7 +23,7 @@ def create_app() -> Flask:
         static_folder=str(BASE_DIR / "static"),
     )
 
-    flask_app.config["SECRET_KEY"] = "queernomads-dev-secret-key-change-in-production"
+    flask_app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", DEFAULT_DEV_SECRET)
     flask_app.config["DATABASE"] = str(BASE_DIR / "queernomads.db")
     flask_app.config["SCHEMA_PATH"] = str(BASE_DIR / "schema.sql")
 

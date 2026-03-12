@@ -371,3 +371,17 @@ a:hover { color: var(--accent-hover); }
     font-size: 0.75rem;
     color: var(--text-secondary);
 }
+
+/* ─── Phase 7 Consistency & Cleanup ────────────────────────── */
+.section-title {
+    letter-spacing: 0.01em;
+}
+
+.page-intro {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.notice-link-row {
+    font-size: 0.85rem;
+}
