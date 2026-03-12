@@ -108,6 +108,20 @@ The app runs at `http://localhost:5000`.
 
 ---
 
+## How to Demo This Project
+
+For a recruiter-friendly walkthrough:
+
+1. Open `/` and explain the positioning (city intelligence + community-informed context).
+2. Open `/cities` and demonstrate search/filter/sort controls.
+3. Open `/cities/lisbon-portugal` and highlight tradeoffs, score breakdown, strengths/limitations, and trust labels.
+4. Open `/methodology` and explain confidence levels + current limitations.
+5. Open `/browse` to show the community stories layer that complements city intelligence.
+
+This sequence shows the product concept clearly in under 5 minutes.
+
+---
+
 ## Validation Commands
 
 ```bash
