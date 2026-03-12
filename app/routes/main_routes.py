@@ -4,6 +4,7 @@ from flask import Blueprint, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import login_required, apology
+from app.services.city_service import get_all_cities, get_city_data_notice
 from app.services.db_service import get_db
 from app.services.story_service import fetch_recent_stories, get_user_stories
 
@@ -13,9 +14,15 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def index():
-    """Homepage — show recent stories from the community."""
-    stories = fetch_recent_stories(limit=12)
-    return render_template("index.html", stories=stories)
+    """Homepage — position QueerNomads as city intelligence + community context."""
+    stories = fetch_recent_stories(limit=6)
+    featured_cities = get_all_cities()[:3]
+    return render_template(
+        "index.html",
+        stories=stories,
+        featured_cities=featured_cities,
+        city_data_notice=get_city_data_notice(),
+    )
 
 
 @main_bp.route("/register", methods=["GET", "POST"])

@@ -344,3 +344,30 @@ a:hover { color: var(--accent-hover); }
 .related-city-link:hover .related-city-card {
     border-color: var(--accent);
 }
+
+/* ─── Phase 6 Product Shell Polish ─────────────────────────── */
+.product-hero {
+    border: 1px solid var(--border-color);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: var(--rainbow-5);
+    font-weight: 600;
+}
+
+.trust-card {
+    background: rgba(15, 52, 96, 0.24);
+}
+
+.confidence-chip {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}

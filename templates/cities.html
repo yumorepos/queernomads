@@ -3,8 +3,8 @@
 {% block content %}
 
 <section class="mb-4">
-    <h1 class="mb-2">🌆 Discover Cities for Queer Digital Nomads</h1>
-    <p class="text-muted mb-2">Compare demo city intelligence signals across affordability, safety, internet, weather, and inclusivity.</p>
+    <h1 class="mb-2">🌆 City Intelligence</h1>
+    <p class="text-muted mb-2">Compare city signals for queer digital nomads across affordability, safety, internet, weather, and inclusivity.</p>
     <p class="small text-muted mb-1">{{ data_notice }}</p>
     <a class="small" href="/methodology">Read scoring methodology & trust notes</a>
 </section>
@@ -94,6 +94,10 @@
                     {% for tag in city.best_for[:3] %}
                     <span class="badge rounded-pill text-bg-secondary me-1">{{ tag }}</span>
                     {% endfor %}
+                    <div class="d-flex flex-wrap gap-2 align-items-center mt-2">
+                        <span class="confidence-chip">{{ city.score_metadata.confidence_label|title }} confidence</span>
+                        <small class="text-muted">Reviewed {{ city.score_metadata.last_reviewed.isoformat() }}</small>
+                    </div>
                     <p class="small text-muted mt-2 mb-0">{{ city.transparency_label }}</p>
                 </div>
             </div>
