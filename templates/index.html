@@ -2,63 +2,110 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<!-- Hero Section -->
-<div class="hero-section text-center py-5 mb-4">
-    <h1 class="display-4 fw-bold">Travel the world. <span class="rainbow-text">Be yourself.</span></h1>
-    <p class="lead text-muted mt-3">
-        A community of queer digital nomads sharing travel stories, safety tips, and hidden gems from around the globe.
-    </p>
-    <div class="mt-4">
-        <a href="/browse" class="btn btn-primary btn-lg me-2">Browse Stories</a>
-        {% if not current_user %}
-        <a href="/register" class="btn btn-outline-primary btn-lg">Join the Community</a>
-        {% else %}
-        <a href="/post" class="btn btn-outline-primary btn-lg">Share Your Story</a>
-        {% endif %}
-    </div>
-</div>
-
-<!-- Recent Stories -->
-<h2 class="mb-4">🌍 Recent Stories</h2>
-
-{% if stories %}
-<div class="row g-4">
-    {% for story in stories %}
-    <div class="col-md-6 col-lg-4">
-        <div class="card story-card h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="badge bg-category-{{ story.category }}">{{ story.category | title }}</span>
-                    <span class="rating">
-                        {% for i in range(story.rating) %}★{% endfor %}{% for i in range(5 - story.rating) %}☆{% endfor %}
-                    </span>
-                </div>
-                <h5 class="card-title">
-                    <a href="/story/{{ story.id }}">{{ story.title }}</a>
-                </h5>
-                <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
-                <p class="card-text text-muted">{{ story.body[:150] }}{% if story.body|length > 150 %}...{% endif %}</p>
+<section class="hero-section product-hero py-5 mb-4">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+            <p class="eyebrow mb-2">Queer digital nomad planning, with context</p>
+            <h1 class="display-5 fw-bold mb-3">Find cities that fit your life — not just your budget.</h1>
+            <p class="lead text-muted mb-4">
+                QueerNomads combines city intelligence with community-informed perspective so you can compare destinations with more clarity and less guesswork.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/cities" class="btn btn-primary btn-lg">Explore City Intelligence</a>
+                <a href="/methodology" class="btn btn-outline-primary btn-lg">How scoring works</a>
+                <a href="/browse" class="btn btn-outline-secondary btn-lg">Read Community Stories</a>
             </div>
-            <div class="card-footer bg-transparent">
-                <small class="text-muted">
-                    by <a href="/profile/{{ story.user_id }}">{{ story.username }}</a>
-                    {% if story.pronouns %}({{ story.pronouns }}){% endif %}
-                    · {{ story.created_at[:10] }}
-                </small>
+        </div>
+        <div class="col-lg-5">
+            <div class="card trust-card h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Trust & transparency</h2>
+                    <p class="small text-muted mb-2">{{ city_data_notice }}</p>
+                    <ul class="small text-muted mb-0 ps-3">
+                        <li>Scores are directional planning signals, not final verdicts.</li>
+                        <li>Confidence labels communicate data maturity.</li>
+                        <li>Methodology is visible from discovery and detail pages.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    {% endfor %}
-</div>
-{% else %}
-<div class="text-center py-5">
-    <p class="text-muted fs-5">No stories yet. Be the first to share! 🌈</p>
-    {% if current_user %}
-    <a href="/post" class="btn btn-primary">Share a Story</a>
+</section>
+
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">🌆 Featured City Intelligence</h2>
+        <a class="small" href="/cities">View all cities</a>
+    </div>
+    <div class="row g-4">
+        {% for city in featured_cities %}
+        <div class="col-md-6 col-xl-4">
+            <article class="card city-card h-100">
+                <img src="{{ city.image }}" class="card-img-top city-image" alt="{{ city.name }} skyline">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge text-bg-dark">{{ city.region }}</span>
+                        <span class="score-chip">{{ '%.1f'|format(city.overall_score) }}/10</span>
+                    </div>
+                    <h3 class="h5 mb-1"><a href="/cities/{{ city.slug }}">{{ city.name }}</a></h3>
+                    <p class="text-muted mb-2">{{ city.country }}</p>
+                    <p class="mb-3">{{ city.tradeoff_summary }}</p>
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <span class="confidence-chip">{{ city.score_metadata.confidence_label|title }} confidence</span>
+                        <small class="text-muted">Reviewed {{ city.score_metadata.last_reviewed.isoformat() }}</small>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title mb-0">🌍 Community Stories</h2>
+        <a class="small" href="/browse">Browse all stories</a>
+    </div>
+
+    {% if stories %}
+    <div class="row g-4">
+        {% for story in stories %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card story-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-category-{{ story.category }}">{{ story.category | title }}</span>
+                        <span class="rating">
+                            {% for i in range(story.rating) %}★{% endfor %}{% for i in range(5 - story.rating) %}☆{% endfor %}
+                        </span>
+                    </div>
+                    <h5 class="card-title">
+                        <a href="/story/{{ story.id }}">{{ story.title }}</a>
+                    </h5>
+                    <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
+                    <p class="card-text text-muted">{{ story.body[:130] }}{% if story.body|length > 130 %}...{% endif %}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">
+                        by <a href="/profile/{{ story.user_id }}">{{ story.username }}</a>
+                        {% if story.pronouns %}({{ story.pronouns }}){% endif %}
+                        · {{ story.created_at[:10] }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     {% else %}
-    <a href="/register" class="btn btn-primary">Join & Share</a>
+    <div class="text-center py-5">
+        <p class="text-muted fs-5">No stories yet. Be the first to share! 🌈</p>
+        {% if current_user %}
+        <a href="/post" class="btn btn-primary">Share a Story</a>
+        {% else %}
+        <a href="/register" class="btn btn-primary">Join & Share</a>
+        {% endif %}
+    </div>
     {% endif %}
-</div>
-{% endif %}
+</section>
 
 {% endblock %}

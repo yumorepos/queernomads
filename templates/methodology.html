@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}Methodology{% endblock %}
+{% block content %}
+
+<section class="mb-4">
+    <h1 class="section-title mb-2">Methodology & Trust Notes</h1>
+    <p class="text-muted mb-1">How QueerNomads currently builds city intelligence and how to interpret it responsibly.</p>
+    <p class="small text-muted mb-1">{{ data_notice }}</p>
+    <a class="small" href="/cities">Back to city discovery</a>
+</section>
+
+<section class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 mb-3">What city scores represent</h2>
+        <p class="mb-0">{{ methodology.score_definition }}</p>
+    </div>
+</section>
+
+<section class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Confidence labels</h2>
+        <ul class="mb-0">
+            <li><strong>Low:</strong> {{ methodology.confidence_levels.low }}</li>
+            <li><strong>Medium:</strong> {{ methodology.confidence_levels.medium }}</li>
+            <li><strong>High:</strong> {{ methodology.confidence_levels.high }}</li>
+        </ul>
+    </div>
+</section>
+
+<section class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Current limitations</h2>
+        <ul class="mb-0">
+            {% for limitation in methodology.limitations %}
+            <li>{{ limitation }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<section class="card">
+    <div class="card-body">
+        <h2 class="h5 mb-3">How to use this responsibly</h2>
+        <ul class="mb-0">
+            {% for guidance in methodology.interpretation_guidance %}
+            <li>{{ guidance }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{% endblock %}
