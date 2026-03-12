@@ -22,6 +22,12 @@ def compare():
     matrix = build_comparison_matrix(selected)
     all_cities = sorted(list_cities_with_scores(), key=lambda c: c["name"])
 
+    winner_counts = [0] * len(selected)
+    for row in matrix:
+        winner_index = row.get("winner_index")
+        if winner_index is not None and winner_index < len(winner_counts):
+            winner_counts[winner_index] += 1
+
     warning = None
     if invalid:
         warning = f"Some selected cities were unavailable and were skipped: {', '.join(invalid)}"
@@ -34,4 +40,5 @@ def compare():
         matrix=matrix,
         all_cities=all_cities,
         warning=warning,
+        winner_counts=winner_counts,
     )
