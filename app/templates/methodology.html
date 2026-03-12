@@ -2,18 +2,28 @@
 {% block title %}Methodology{% endblock %}
 {% block content %}
 <h1>Methodology</h1>
-<p class="text-muted">How QueerNomads scores cities for queer digital nomads.</p>
+<p class="text-muted">How QueerNomads scores cities for queer digital nomads. These scores are structured guidance, not objective truth.</p>
 <div class="row g-4">
   <div class="col-lg-7">
     {% for note in notes %}
     <div class="card mb-3"><div class="card-body"><h5>{{ note.section }}</h5><p class="mb-0">{{ note.body }}</p></div></div>
     {% endfor %}
+    <div class="card"><div class="card-body">
+      <h5>Ranking presets</h5>
+      {% for key, preset in presets.items() %}
+      <div class="mb-3">
+        <strong>{{ preset.label }}</strong>
+        <p class="small text-muted mb-1">{{ preset.description }}</p>
+        <p class="small mb-0">Weight emphasis: {% for dim_key, weight in preset.weights.items() %}{{ dim_key }} {{ weight }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      </div>
+      {% endfor %}
+    </div></div>
   </div>
   <div class="col-lg-5">
     <div class="card"><div class="card-body">
       <h5>Scoring dimensions</h5>
       {% for dim in dimensions %}
-      <div class="mb-3"><strong>{{ dim.label }}</strong><div class="small text-muted">{{ dim.description }}</div><div class="small">Default weight: {{ dim.weight_default }}</div></div>
+      <div class="mb-3"><strong>{{ dim.label }}</strong><div class="small text-muted">{{ dim.description }}</div><div class="small">Baseline weight: {{ dim.weight_default }}</div></div>
       {% endfor %}
     </div></div>
   </div>

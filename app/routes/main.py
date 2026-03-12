@@ -7,6 +7,7 @@ bp = Blueprint("main", __name__)
 
 @bp.route("/")
 def index():
-    cities = sorted(list_cities_with_scores(), key=lambda c: c["overall_score"], reverse=True)[:3]
+    cities = list_cities_with_scores(preset="balanced")
+    featured = sorted(cities, key=lambda c: (-c["active_score"], c["name"]))[:3]
     stories = recent_stories(limit=6)
-    return render_template("index.html", featured_cities=cities, stories=stories)
+    return render_template("index.html", featured_cities=featured, stories=stories)

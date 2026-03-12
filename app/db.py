@@ -3,7 +3,10 @@ import sqlite3
 from pathlib import Path
 from flask import current_app, g
 
+from app.services.snapshots import rebuild_city_snapshots
+
 ROOT = Path(__file__).resolve().parent.parent
+MIGRATIONS_DIR = ROOT / "migrations"
 
 
 def get_db():
@@ -20,23 +23,61 @@ def close_db(_exception=None):
         db.close()
 
 
+def init_app_data():
+    db = sqlite3.connect(current_app.config["DATABASE"])
+    db.row_factory = sqlite3.Row
+    db.execute("PRAGMA foreign_keys = ON")
+    run_migrations(db)
+    seed_db(db)
+    rebuild_city_snapshots(db)
+    db.close()
+
+
+def run_migrations(db):
+    db.execute(
+        """CREATE TABLE IF NOT EXISTS schema_migrations (
+           version TEXT PRIMARY KEY,
+           applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )"""
+    )
+
+    applied = {row["version"] for row in db.execute("SELECT version FROM schema_migrations").fetchall()}
+    migration_files = sorted(MIGRATIONS_DIR.glob("*.sql"))
+
+    for path in migration_files:
+        version = path.stem
+        if version in applied:
+            continue
+
+        script = path.read_text(encoding="utf-8")
+        try:
+            db.executescript(script)
+        except sqlite3.OperationalError as exc:
+            if _can_ignore_column_exists_error(db, version, str(exc)):
+                pass
+            else:
+                raise
+
+        db.execute("INSERT INTO schema_migrations (version) VALUES (?)", (version,))
+        db.commit()
+
+
+def _can_ignore_column_exists_error(db, version, error):
+    if version != "002_snapshot_preset_scores":
+        return False
+    expected = {
+        "balanced_score": _column_exists(db, "city_snapshots", "balanced_score"),
+        "remote_work_score": _column_exists(db, "city_snapshots", "remote_work_score"),
+        "community_score": _column_exists(db, "city_snapshots", "community_score"),
+    }
+    if all(expected.values()):
+        return "duplicate column name" in error.lower()
+    return False
+
+
 def _column_exists(db, table, column):
     cols = db.execute(f"PRAGMA table_info({table})").fetchall()
     return any(col[1] == column for col in cols)
-
-
-def init_db():
-    db = sqlite3.connect(current_app.config["DATABASE"])
-    schema_path = ROOT / "schema.sql"
-    with open(schema_path, encoding="utf-8") as f:
-        db.executescript(f.read())
-
-    if not _column_exists(db, "stories", "city_id"):
-        db.execute("ALTER TABLE stories ADD COLUMN city_id INTEGER REFERENCES cities(id)")
-
-    db.commit()
-    seed_db(db)
-    db.close()
 
 
 def seed_db(db):
@@ -90,7 +131,6 @@ def seed_db(db):
                 (note["section"], note["body"], note["sort_order"]),
             )
 
-    # link legacy stories to known cities when destination matches city name
     db.execute(
         """UPDATE stories
            SET city_id = (SELECT id FROM cities WHERE LOWER(cities.name) = LOWER(stories.destination))

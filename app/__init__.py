@@ -1,14 +1,13 @@
+import click
 from flask import Flask, session
 
-from .db import close_db, get_db, init_db
+from .config import Config
+from .db import close_db, get_db, init_app_data
 
 
 def create_app(test_config=None):
     app = Flask(__name__, template_folder="templates", static_folder="static")
-    app.config.from_mapping(
-        SECRET_KEY="queernomads-dev-secret-key-change-in-production",
-        DATABASE="queernomads.db",
-    )
+    app.config.from_object(Config)
 
     if test_config:
         app.config.update(test_config)
@@ -22,6 +21,13 @@ def create_app(test_config=None):
             return {"current_user": user}
         return {"current_user": None}
 
+    @app.cli.command("migrate")
+    def migrate_command():
+        """Apply database migrations and refresh snapshots."""
+        with app.app_context():
+            init_app_data()
+        click.echo("Migrations + seeds + snapshots completed.")
+
     from .routes import auth, cities, compare, community, main, methodology
 
     app.register_blueprint(main.bp)
@@ -32,6 +38,6 @@ def create_app(test_config=None):
     app.register_blueprint(methodology.bp)
 
     with app.app_context():
-        init_db()
+        init_app_data()
 
     return app
