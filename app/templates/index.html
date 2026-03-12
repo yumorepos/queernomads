@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero-section mb-5">
+  <h1 class="display-5 fw-bold">Discover cities with <span class="rainbow-text">queer reality</span>, not generic hype.</h1>
+  <p class="lead text-muted mt-3">QueerNomads combines community insight and city intelligence so you can compare tradeoffs and move with confidence.</p>
+  <div class="mt-4 d-flex gap-2 flex-wrap">
+    <a href="/cities" class="btn btn-primary btn-lg">Explore Cities</a>
+    <a href="/compare" class="btn btn-outline-primary btn-lg">Compare Cities</a>
+    <a href="/community" class="btn btn-outline-secondary btn-lg">Read Community Insights</a>
+  </div>
+</section>
+
+<h2 class="mb-3">Top cities right now</h2>
+<div class="row g-4 mb-5">
+{% for city in featured_cities %}
+<div class="col-md-4">
+  <div class="card city-card h-100">
+    <div class="card-body">
+      <div class="d-flex justify-content-between"><h5>{{ city.name }}</h5><span class="score-pill">{{ city.overall_score }}</span></div>
+      <p class="text-muted mb-2">{{ city.country }} · {{ city.region }}</p>
+      <p>{{ city.summary }}</p>
+      <p class="small text-muted mb-1"><strong>Strengths:</strong> {{ city.strengths|join(', ') }}</p>
+      <p class="small text-muted"><strong>Tradeoffs:</strong> {{ city.tradeoffs|join(', ') }}</p>
+      <a href="/cities/{{ city.slug }}" class="btn btn-sm btn-outline-primary">City brief</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<h2 class="mb-3">Recent community insights</h2>
+<div class="row g-4">
+{% for story in stories %}
+<div class="col-md-6 col-lg-4">
+  <div class="card story-card h-100">
+    <div class="card-body">
+      <span class="badge bg-category-{{ story.category }}">{{ story.category|title }}</span>
+      <h6 class="mt-2"><a href="/story/{{ story.id }}">{{ story.title }}</a></h6>
+      <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
+      <p class="text-muted small">{{ story.body[:120] }}{% if story.body|length > 120 %}...{% endif %}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

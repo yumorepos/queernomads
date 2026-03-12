@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Community{% endblock %}
+{% block content %}
+<h1>Community insights</h1>
+<form method="get" class="row g-3 mb-4">
+  <div class="col-md-8"><input class="form-control" type="text" name="q" value="{{ query }}" placeholder="Search destination or title"></div>
+  <div class="col-md-3"><select class="form-select" name="category"><option value="">All categories</option><option value="general" {% if selected_category=='general' %}selected{% endif %}>General</option><option value="nightlife" {% if selected_category=='nightlife' %}selected{% endif %}>Nightlife</option><option value="safety" {% if selected_category=='safety' %}selected{% endif %}>Safety</option><option value="community" {% if selected_category=='community' %}selected{% endif %}>Community</option><option value="accommodation" {% if selected_category=='accommodation' %}selected{% endif %}>Accommodation</option></select></div>
+  <div class="col-md-1 d-grid"><button class="btn btn-primary">Go</button></div>
+</form>
+
+<div class="row g-4">
+{% for story in stories %}
+<div class="col-md-6 col-lg-4"><div class="card story-card h-100"><div class="card-body"><span class="badge bg-category-{{ story.category }}">{{ story.category|title }}</span><h5 class="mt-2"><a href="/story/{{ story.id }}">{{ story.title }}</a></h5><p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p><p class="text-muted">{{ story.body[:140] }}{% if story.body|length > 140 %}...{% endif %}</p></div></div></div>
+{% endfor %}
+</div>
+{% endblock %}

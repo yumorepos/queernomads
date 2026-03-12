@@ -41,6 +41,15 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="city_id" class="form-label">Link this insight to a city (optional)</label>
+                        <select class="form-select" id="city_id" name="city_id">
+                            <option value="">Not linked yet</option>
+                            {% for city in cities %}
+                            <option value="{{ city.id }}">{{ city.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="body" class="form-label">Your Story</label>
                         <textarea class="form-control" id="body" name="body" rows="10" placeholder="Share your experience — what made it great, what to watch out for, tips for other queer travellers..." required></textarea>
                     </div>

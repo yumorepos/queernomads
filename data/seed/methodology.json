@@ -1,0 +1,17 @@
+[
+  {
+    "section": "Scoring philosophy",
+    "body": "QueerNomads scores cities by balancing practical remote-work needs with queer lived-experience factors. We do not optimize for cheapest-only rankings.",
+    "sort_order": 1
+  },
+  {
+    "section": "Confidence and limitations",
+    "body": "Each score includes confidence and source-count context. These are directional decision aids, not universal truth.",
+    "sort_order": 2
+  },
+  {
+    "section": "Why this is queer-nomad specific",
+    "body": "Inclusivity and community potential are weighted as first-class dimensions, alongside affordability and infrastructure.",
+    "sort_order": 3
+  }
+]

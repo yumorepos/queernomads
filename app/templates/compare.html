@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Compare{% endblock %}
+{% block content %}
+<h1>Compare cities</h1>
+<p class="text-muted">Choose 2–4 cities to compare tradeoffs side by side.</p>
+<form class="row g-2 mb-4">
+  {% for i in range(4) %}
+  <div class="col-md-3">
+    <select name="city" class="form-select">
+      <option value="">Select city</option>
+      {% for city in all_cities %}
+      <option value="{{ city.slug }}" {% if selected|length > i and selected[i].slug == city.slug %}selected{% endif %}>{{ city.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endfor %}
+  <div class="col-12"><button class="btn btn-primary">Compare</button></div>
+</form>
+
+{% if selected %}
+<div class="table-responsive">
+<table class="table table-dark table-striped align-middle">
+  <thead><tr><th>Dimension</th>{% for city in selected %}<th>{{ city.name }} <span class="score-pill small">{{ city.overall_score }}</span></th>{% endfor %}</tr></thead>
+  <tbody>
+    {% for row in matrix %}
+    <tr><td class="text-capitalize">{{ row.dimension|replace('_', ' ') }}</td>{% for value in row.scores %}<td>{{ value|int if value is not none else '-' }}</td>{% endfor %}</tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}
