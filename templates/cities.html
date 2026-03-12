@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}Cities{% endblock %}
+{% block content %}
+
+<section class="mb-4">
+    <h1 class="mb-2">🌆 City Intelligence (Demo)</h1>
+    <p class="text-muted mb-0">{{ data_notice }}</p>
+</section>
+
+{% if cities %}
+<div class="row g-4">
+    {% for city in cities %}
+    <div class="col-md-6 col-lg-4">
+        <article class="card city-card h-100">
+            <img src="{{ city.image }}" class="card-img-top city-image" alt="{{ city.name }} skyline">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge text-bg-dark">{{ city.region }}</span>
+                    <span class="score-chip">{{ '%.1f'|format(city.overall_score) }}/10</span>
+                </div>
+                <h2 class="h5 mb-1"><a href="/cities/{{ city.slug }}">{{ city.name }}</a></h2>
+                <p class="text-muted mb-2">{{ city.country }}</p>
+                <p class="mb-3">{{ city.summary }}</p>
+                <p class="small text-muted mb-0">{{ city.transparency_label }}</p>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted fs-5">No city intelligence entries available yet.</p>
+</div>
+{% endif %}
+
+{% endblock %}
