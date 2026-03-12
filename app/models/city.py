@@ -30,6 +30,7 @@ class City:
     region: str
     image: str
     summary: str
+    tradeoff_summary: str
     affordability: float
     safety: float
     internet: float
@@ -37,6 +38,8 @@ class City:
     inclusivity: float
     overall_score: float
     best_for: list[str] = field(default_factory=list)
+    strengths: list[str] = field(default_factory=list)
+    limitations: list[str] = field(default_factory=list)
     score_metadata: CityScoreMetadata = field(
         default_factory=lambda: CityScoreMetadata(
             source_name="QueerNomads seed dataset",

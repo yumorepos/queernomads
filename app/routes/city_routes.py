@@ -8,7 +8,10 @@ from app.services.city_service import (
     get_all_cities,
     get_city_by_slug,
     get_city_data_notice,
+    get_methodology_content,
     get_regions,
+    get_related_cities,
+    get_score_breakdown,
 )
 from helpers import apology
 
@@ -78,6 +81,18 @@ def view_city(slug: str):
     return render_template(
         "city_detail.html",
         city=city,
+        data_notice=get_city_data_notice(),
+        score_breakdown=get_score_breakdown(city),
+        related_cities=get_related_cities(slug),
+    )
+
+
+@city_bp.route("/methodology")
+def methodology():
+    """Explain city intelligence methodology and confidence labeling."""
+    return render_template(
+        "methodology.html",
+        methodology=get_methodology_content(),
         data_notice=get_city_data_notice(),
     )
 
