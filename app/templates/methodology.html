@@ -1,31 +1,69 @@
 {% extends "layout.html" %}
 {% block title %}Methodology{% endblock %}
 {% block content %}
-<h1>Methodology</h1>
-<p class="text-muted">How QueerNomads scores cities for queer digital nomads. These scores are structured guidance, not objective truth.</p>
+<section class="mb-4">
+  <p class="section-heading">Scoring philosophy</p>
+  <h1 class="page-title">How QueerNomads turns messy reality into usable guidance</h1>
+  <p class="page-intro">Our rankings are intentionally queer-specific and decision-oriented. They are structured guidance—not absolute truth—and are meant to support, not replace, personal judgment and community context.</p>
+</section>
+
 <div class="row g-4">
   <div class="col-lg-7">
-    {% for note in notes %}
-    <div class="card mb-3"><div class="card-body"><h5>{{ note.section }}</h5><p class="mb-0">{{ note.body }}</p></div></div>
-    {% endfor %}
-    <div class="card"><div class="card-body">
-      <h5>Ranking presets</h5>
-      {% for key, preset in presets.items() %}
-      <div class="mb-3">
-        <strong>{{ preset.label }}</strong>
-        <p class="small text-muted mb-1">{{ preset.description }}</p>
-        <p class="small mb-0">Weight emphasis: {% for dim_key, weight in preset.weights.items() %}{{ dim_key }} {{ weight }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="mb-3">What to trust, and what to treat carefully</h5>
+        <ul class="mb-0 text-muted">
+          <li class="mb-2">Scores reflect weighted dimensions and available data quality.</li>
+          <li class="mb-2">A high overall score can still include meaningful personal tradeoffs.</li>
+          <li class="mb-2">Local queer experience can vary by identity, neighborhood, and season.</li>
+          <li class="mb-0">Use scores to shortlist cities, then validate through lived community insight.</li>
+        </ul>
       </div>
-      {% endfor %}
-    </div></div>
+    </div>
+
+    {% for note in notes %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>{{ note.section }}</h5>
+        <p class="mb-0 text-secondary">{{ note.body }}</p>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="mb-3">Ranking presets and intentional tradeoffs</h5>
+        {% for key, preset in presets.items() %}
+        <div class="mb-3 pb-3 {% if not loop.last %}border-bottom{% endif %}" style="border-color: var(--border-subtle) !important;">
+          <strong>{{ preset.label }}</strong>
+          <p class="small text-muted mb-1">{{ preset.description }}</p>
+          <p class="small mb-0 text-secondary">Weight emphasis: {% for dim_key, weight in preset.weights.items() %}<span class="meta-pill">{{ dim_key }} {{ weight }}</span>{% endfor %}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
+
   <div class="col-lg-5">
-    <div class="card"><div class="card-body">
-      <h5>Scoring dimensions</h5>
-      {% for dim in dimensions %}
-      <div class="mb-3"><strong>{{ dim.label }}</strong><div class="small text-muted">{{ dim.description }}</div><div class="small">Baseline weight: {{ dim.weight_default }}</div></div>
-      {% endfor %}
-    </div></div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="mb-3">Scoring dimensions</h5>
+        {% for dim in dimensions %}
+        <div class="mb-3 pb-2 {% if not loop.last %}border-bottom{% endif %}" style="border-color: var(--border-subtle) !important;">
+          <strong>{{ dim.label }}</strong>
+          <div class="small text-muted">{{ dim.description }}</div>
+          <div class="small text-secondary">Baseline weight: {{ dim.weight_default }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="mb-2">Queer-specific by design</h5>
+        <p class="small text-secondary mb-0">QueerNomads does not optimize for generic digital nomad hype. We center safety, social belonging, rights context, and lived experience signals that materially shape queer mobility decisions.</p>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

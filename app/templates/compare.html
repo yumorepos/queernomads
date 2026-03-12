@@ -1,33 +1,77 @@
 {% extends "layout.html" %}
 {% block title %}Compare{% endblock %}
 {% block content %}
-<h1>Compare cities</h1>
-<p class="text-muted">Choose 2–4 cities to compare tradeoffs side by side.</p>
+<section class="mb-4">
+  <p class="section-heading">Side-by-side decisions</p>
+  <h1 class="page-title">Which city fits you better, and why?</h1>
+  <p class="page-intro">Compare 2 to 4 cities across the same scoring dimensions so tradeoffs are visible, not hidden.</p>
+</section>
+
 {% if warning %}<div class="alert alert-info">{{ warning }}</div>{% endif %}
-<form class="row g-2 mb-4">
-  {% for i in range(4) %}
-  <div class="col-md-3">
-    <select name="city" class="form-select">
-      <option value="">Select city</option>
-      {% for city in all_cities %}
-      <option value="{{ city.slug }}" {% if selected|length > i and selected[i].slug == city.slug %}selected{% endif %}>{{ city.name }}</option>
+
+<div class="card filter-card mb-4">
+  <div class="card-body p-4">
+    <h5 class="mb-2">Build your comparison set</h5>
+    <p class="small text-muted mb-3">Tip: choose cities you are genuinely deciding between for clearer signal.</p>
+    <form class="row g-2 align-items-end">
+      {% for i in range(4) %}
+      <div class="col-md-3">
+        <label class="form-label">City {{ i + 1 }}</label>
+        <select name="city" class="form-select">
+          <option value="">Select city</option>
+          {% for city in all_cities %}
+          <option value="{{ city.slug }}" {% if selected|length > i and selected[i].slug == city.slug %}selected{% endif %}>{{ city.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
       {% endfor %}
-    </select>
+      <div class="col-12 mt-3"><button class="btn btn-primary">Compare cities</button></div>
+    </form>
   </div>
-  {% endfor %}
-  <div class="col-12"><button class="btn btn-primary">Compare</button></div>
-</form>
+</div>
 
 {% if selected|length >= 2 %}
-<div class="table-responsive">
-<table class="table table-dark table-striped align-middle">
-  <thead><tr><th>Dimension</th>{% for city in selected %}<th>{{ city.name }} <span class="score-pill small">{{ city.balanced_score }}</span></th>{% endfor %}</tr></thead>
+<div class="row g-3 mb-3">
+  {% for city in selected %}
+  <div class="col-md-6 col-xl-3">
+    <div class="card h-100">
+      <div class="card-body">
+        <h6 class="mb-1">{{ city.name }}</h6>
+        <div class="text-muted small mb-2">{{ city.country }} · {{ city.region }}</div>
+        <div class="score-label">Balanced score</div>
+        <span class="score-pill">{{ city.balanced_score }}</span>
+        <p class="small text-muted mt-2 mb-0">Leads in <strong>{{ winner_counts[loop.index0] }}</strong> dimensions.</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="compare-grid table-responsive">
+<table class="table table-dark table-striped align-middle mb-0">
+  <thead>
+    <tr>
+      <th style="min-width: 180px;">Dimension</th>
+      {% for city in selected %}
+      <th>{{ city.name }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
   <tbody>
     {% for row in matrix %}
     <tr>
-      <td>{{ row.label }}</td>
+      <th>{{ row.label }}</th>
       {% for value in row.scores %}
-      <td>{% if value is not none %}{{ value|int }}{% if row.winner_index == loop.index0 %} <span class="badge bg-success-subtle text-light">Highest</span>{% endif %}{% else %}-{% endif %}</td>
+      <td>
+        {% if value is not none %}
+          <strong>{{ value|int }}</strong>
+          {% if row.winner_index == loop.index0 %}
+            <span class="winner-chip">Highest</span>
+          {% endif %}
+        {% else %}
+          <span class="text-muted">—</span>
+        {% endif %}
+      </td>
       {% endfor %}
     </tr>
     {% endfor %}
@@ -35,6 +79,14 @@
 </table>
 </div>
 {% elif selected %}
-<p class="text-muted">Select at least 2 valid cities to compare.</p>
+<div class="empty-state">
+  <h5 class="mb-2">Add one more city to compare</h5>
+  <p class="mb-0">You selected {{ selected|length }} city. Choose at least 2 to reveal side-by-side winners and tradeoffs.</p>
+</div>
+{% else %}
+<div class="empty-state">
+  <h5 class="mb-2">No cities selected yet</h5>
+  <p class="mb-0">Choose 2–4 cities above, then click <strong>Compare cities</strong> to see which option fits your priorities.</p>
+</div>
 {% endif %}
 {% endblock %}

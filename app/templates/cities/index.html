@@ -1,29 +1,41 @@
 {% extends "layout.html" %}
 {% block title %}Cities{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-end mb-2 flex-wrap gap-2">
-  <div>
-    <h1>Cities</h1>
-    <p class="text-muted mb-0">Discovery and rankings for queer digital nomad decisions.</p>
+<section class="mb-4">
+  <p class="section-heading">City discovery</p>
+  <h1 class="page-title">Choose a city with your actual priorities</h1>
+  <p class="page-intro mb-3">Rankings are tuned for queer digital nomads and surfaced as guidance, not gospel. Pick a preset to shift what “best” means for this decision.</p>
+  <div class="panel-surface p-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div>
+        <div class="score-label mb-1">Active ranking mode</div>
+        <h5 class="mb-1">{{ presets[preset].label }}</h5>
+        <p class="text-muted mb-0">{{ presets[preset].description }}</p>
+      </div>
+      <span class="meta-pill"><i class="bi bi-info-circle"></i> Rankings reflect weighted tradeoffs, not absolute truth</span>
+    </div>
   </div>
-</div>
-<p class="text-muted mb-4">Active ranking mode: <strong>{{ presets[preset].label }}</strong> — {{ presets[preset].description }}</p>
+</section>
 
-<div class="card mb-4"><div class="card-body">
+<div class="card filter-card mb-4"><div class="card-body p-4">
+  <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+    <h5 class="mb-0">Refine your shortlist</h5>
+    <div class="small text-muted">{{ cities|length if cities else 0 }} cities shown</div>
+  </div>
   <form class="row g-3">
     <div class="col-md-3">
-      <label class="form-label">Best for preset</label>
+      <label class="form-label">Preset</label>
       <select name="preset" class="form-select">
         {% for key, meta in presets.items() %}
         <option value="{{ key }}" {% if preset == key %}selected{% endif %}>{{ meta.label }}</option>
         {% endfor %}
       </select>
     </div>
-    <div class="col-md-2"><label class="form-label">Region</label><select name="region" class="form-select"><option value="">All</option>{% for region in regions %}<option value="{{ region }}" {% if selected_region==region %}selected{% endif %}>{{ region }}</option>{% endfor %}</select></div>
-    <div class="col-md-2"><label class="form-label">Cost</label><select name="cost_level" class="form-select"><option value="">Any</option><option value="low" {% if selected_cost=='low' %}selected{% endif %}>Low</option><option value="medium" {% if selected_cost=='medium' %}selected{% endif %}>Medium</option><option value="high" {% if selected_cost=='high' %}selected{% endif %}>High</option></select></div>
-    <div class="col-md-2"><label class="form-label">Min score</label><input type="number" class="form-control" min="0" max="100" name="min_score" value="{{ min_score }}"></div>
-    <div class="col-md-2"><label class="form-label">Sort</label><select name="sort" class="form-select"><option value="score_desc" {% if sort=='score_desc' %}selected{% endif %}>Highest score</option><option value="score_asc" {% if sort=='score_asc' %}selected{% endif %}>Lowest score</option><option value="name_asc" {% if sort=='name_asc' %}selected{% endif %}>Name A–Z</option></select></div>
-    <div class="col-md-1 d-grid"><label class="form-label">&nbsp;</label><button class="btn btn-primary">Go</button></div>
+    <div class="col-md-2"><label class="form-label">Region</label><select name="region" class="form-select"><option value="">All regions</option>{% for region in regions %}<option value="{{ region }}" {% if selected_region==region %}selected{% endif %}>{{ region }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><label class="form-label">Cost profile</label><select name="cost_level" class="form-select"><option value="">Any</option><option value="low" {% if selected_cost=='low' %}selected{% endif %}>Low</option><option value="medium" {% if selected_cost=='medium' %}selected{% endif %}>Medium</option><option value="high" {% if selected_cost=='high' %}selected{% endif %}>High</option></select></div>
+    <div class="col-md-2"><label class="form-label">Minimum score</label><input type="number" class="form-control" min="0" max="100" name="min_score" value="{{ min_score }}"></div>
+    <div class="col-md-2"><label class="form-label">Sort by</label><select name="sort" class="form-select"><option value="score_desc" {% if sort=='score_desc' %}selected{% endif %}>Highest score</option><option value="score_asc" {% if sort=='score_asc' %}selected{% endif %}>Lowest score</option><option value="name_asc" {% if sort=='name_asc' %}selected{% endif %}>Name A–Z</option></select></div>
+    <div class="col-md-1 d-grid"><label class="form-label">&nbsp;</label><button class="btn btn-primary">Apply</button></div>
   </form>
 </div></div>
 
@@ -31,20 +43,40 @@
 <div class="row g-4">
 {% for city in cities %}
 <div class="col-md-6 col-xl-4">
-  <div class="card city-card h-100">
+  <article class="card city-card h-100">
     <div class="card-body">
-      <div class="d-flex justify-content-between"><h5>{{ city.name }}</h5><span class="score-pill">{{ city.active_score }}</span></div>
-      <p class="text-muted">{{ city.country }} · {{ city.region }} · {{ city.cost_level|title }} cost</p>
-      <p>{{ city.summary }}</p>
-      <p class="small text-muted mb-2"><strong>Why it ranks:</strong> {{ city.strengths|join(', ') }}</p>
-      <p class="small text-muted"><strong>Watchouts:</strong> {{ city.tradeoffs|join(', ') }}</p>
-      <a class="btn btn-outline-primary btn-sm" href="/cities/{{ city.slug }}">Open city intelligence</a>
+      <div class="d-flex justify-content-between align-items-start gap-3">
+        <div>
+          <div class="city-rank">Rank #{{ loop.index }} in {{ presets[preset].label }}</div>
+          <h5 class="mb-1">{{ city.name }}</h5>
+          <p class="text-muted mb-0">{{ city.country }} · {{ city.region }} · {{ city.cost_level|title }} cost</p>
+        </div>
+        <div class="text-end">
+          <div class="score-label">Preset score</div>
+          <span class="score-pill">{{ city.active_score }}</span>
+        </div>
+      </div>
+
+      <p class="city-summary mb-0">{{ city.summary }}</p>
+
+      <div class="insight-block">
+        <strong>Why it ranks well</strong>
+        <p class="small text-muted mb-0 mt-1">{{ city.strengths|join(', ') }}</p>
+      </div>
+      <div class="insight-block">
+        <strong>Key tradeoffs</strong>
+        <p class="small text-muted mb-0 mt-1">{{ city.tradeoffs|join(', ') }}</p>
+      </div>
+      <a class="btn btn-outline-primary btn-sm mt-2 align-self-start" href="/cities/{{ city.slug }}">Open city intelligence brief</a>
     </div>
-  </div>
+  </article>
 </div>
 {% endfor %}
 </div>
 {% else %}
-<div class="text-center py-5"><p class="text-muted">No cities match this filter set. Try lowering the minimum score or switching preset.</p></div>
+<div class="empty-state">
+  <h5 class="mb-2">No cities match this filter set yet</h5>
+  <p class="mb-0">Try lowering minimum score, widening region, or switching to a different preset to surface alternatives.</p>
+</div>
 {% endif %}
 {% endblock %}

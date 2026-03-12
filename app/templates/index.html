@@ -2,46 +2,72 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <section class="hero-section mb-5">
-  <h1 class="display-5 fw-bold">Discover cities with <span class="rainbow-text">queer reality</span>, not generic hype.</h1>
-  <p class="lead text-muted mt-3">QueerNomads combines community insight and city intelligence so you can compare tradeoffs and move with confidence.</p>
+  <p class="section-heading mb-2">Queer-first city intelligence</p>
+  <h1 class="display-5 fw-bold">Find your next base with <span class="rainbow-text">clarity, not guesswork.</span></h1>
+  <p class="lead mt-3 page-intro">QueerNomads is a city intelligence and community platform for queer digital nomads. Compare cities by safety, belonging, affordability, and livability—then decide with context.</p>
+  <div class="meta-strip">
+    <span class="meta-pill">Structured rankings by preset goals</span>
+    <span class="meta-pill">Community-grounded insights</span>
+    <span class="meta-pill">Tradeoff-first decision support</span>
+  </div>
   <div class="mt-4 d-flex gap-2 flex-wrap">
-    <a href="/cities" class="btn btn-primary btn-lg">Explore Cities</a>
-    <a href="/compare" class="btn btn-outline-primary btn-lg">Compare Cities</a>
-    <a href="/community" class="btn btn-outline-secondary btn-lg">Read Community Insights</a>
+    <a href="/cities" class="btn btn-primary btn-lg">Browse city intelligence</a>
+    <a href="/compare" class="btn btn-outline-primary btn-lg">Compare cities side-by-side</a>
+    <a href="/community" class="btn btn-outline-secondary btn-lg">Read community insights</a>
   </div>
 </section>
 
-<h2 class="mb-3">Top cities right now</h2>
-<div class="row g-4 mb-5">
-{% for city in featured_cities %}
-<div class="col-md-4">
-  <div class="card city-card h-100">
-    <div class="card-body">
-      <div class="d-flex justify-content-between"><h5>{{ city.name }}</h5><span class="score-pill">{{ city.overall_score }}</span></div>
-      <p class="text-muted mb-2">{{ city.country }} · {{ city.region }}</p>
-      <p>{{ city.summary }}</p>
-      <p class="small text-muted mb-1"><strong>Strengths:</strong> {{ city.strengths|join(', ') }}</p>
-      <p class="small text-muted"><strong>Tradeoffs:</strong> {{ city.tradeoffs|join(', ') }}</p>
-      <a href="/cities/{{ city.slug }}" class="btn btn-sm btn-outline-primary">City brief</a>
+<section class="mb-5">
+  <p class="section-heading">Popular right now</p>
+  <h2 class="mb-3">Top cities for balanced queer nomad life</h2>
+  <div class="row g-4">
+  {% for city in featured_cities %}
+  <div class="col-md-4">
+    <div class="card city-card h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h5 class="mb-1">{{ city.name }}</h5>
+            <div class="text-muted small">{{ city.country }} · {{ city.region }}</div>
+          </div>
+          <div class="text-end">
+            <div class="score-label">Balanced score</div>
+            <span class="score-pill">{{ city.overall_score }}</span>
+          </div>
+        </div>
+        <p class="city-summary mb-0">{{ city.summary }}</p>
+        <div class="insight-block">
+          <strong>Strongest signals</strong>
+          <p class="small mb-0 mt-1 text-muted">{{ city.strengths|join(', ') }}</p>
+        </div>
+        <div class="insight-block">
+          <strong>Tradeoffs to expect</strong>
+          <p class="small mb-0 mt-1 text-muted">{{ city.tradeoffs|join(', ') }}</p>
+        </div>
+        <a href="/cities/{{ city.slug }}" class="btn btn-sm btn-outline-primary mt-2 align-self-start">Read city brief</a>
+      </div>
     </div>
   </div>
-</div>
-{% endfor %}
-</div>
+  {% endfor %}
+  </div>
+</section>
 
-<h2 class="mb-3">Recent community insights</h2>
-<div class="row g-4">
-{% for story in stories %}
-<div class="col-md-6 col-lg-4">
-  <div class="card story-card h-100">
-    <div class="card-body">
-      <span class="badge bg-category-{{ story.category }}">{{ story.category|title }}</span>
-      <h6 class="mt-2"><a href="/story/{{ story.id }}">{{ story.title }}</a></h6>
-      <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
-      <p class="text-muted small">{{ story.body[:120] }}{% if story.body|length > 120 %}...{% endif %}</p>
+<section>
+  <p class="section-heading">From the community</p>
+  <h2 class="mb-3">Recent lived-experience insights</h2>
+  <div class="row g-4">
+  {% for story in stories %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card story-card h-100">
+      <div class="card-body">
+        <span class="badge bg-category-{{ story.category }}">{{ story.category|title }}</span>
+        <h6 class="mt-2"><a href="/story/{{ story.id }}">{{ story.title }}</a></h6>
+        <p class="destination"><i class="bi bi-geo-alt"></i> {{ story.destination }}</p>
+        <p class="small text-muted mb-0">{{ story.body[:120] }}{% if story.body|length > 120 %}...{% endif %}</p>
+      </div>
     </div>
   </div>
-</div>
-{% endfor %}
-</div>
+  {% endfor %}
+  </div>
+</section>
 {% endblock %}
