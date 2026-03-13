@@ -6,7 +6,7 @@
   <h1>{{ city.name }}, {{ city.country }}</h1>
   <p class="lead text-muted mb-2">{{ city.summary }}</p>
   <p class="mb-0">{{ city.queer_nomad_note }}</p>
-  <div class="d-flex gap-2 flex-wrap">
+  <div class="d-flex gap-2 flex-wrap mt-2">
     <span class="score-pill">Balanced {{ city.balanced_score }}</span>
     <span class="score-pill">Remote {{ city.remote_work_score }}</span>
     <span class="score-pill">Community {{ city.community_score }}</span>
@@ -17,8 +17,24 @@
 
 <div class="row g-4">
   <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+          <h4 class="mb-0">City intelligence radar</h4>
+          <a href="/methodology" class="small">How to read these scores</a>
+        </div>
+        <p class="text-muted small">Composite view of six methodology dimensions. If this chart does not load, use the detailed score bars below.</p>
+        <div class="radar-wrap mb-3">
+          <canvas id="city-radar-chart" aria-label="{{ city.name }} multidimensional score radar" role="img"></canvas>
+        </div>
+        <noscript>
+          <div class="alert alert-info mb-0">Interactive radar chart is unavailable because JavaScript is disabled. Detailed score bars are shown below.</div>
+        </noscript>
+      </div>
+    </div>
+
     <div class="card mb-4"><div class="card-body">
-      <h4>City intelligence breakdown</h4>
+      <h4>Dimension detail (fallback + evidence)</h4>
       {% for dim in city.dimensions %}
       <div class="mb-3 pb-2 border-bottom border-secondary-subtle">
         <div class="d-flex justify-content-between mb-1"><strong>{{ dim.label }}</strong><strong>{{ dim.value|int }}</strong></div>
@@ -31,17 +47,75 @@
     </div></div>
 
     <div class="card"><div class="card-body">
-      <h4>Community insights from {{ city.name }}</h4>
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h4 class="mb-0">Community insights from {{ city.name }}</h4>
+        <a href="/community" class="small">Browse all community stories</a>
+      </div>
       {% if insights %}
       {% for story in insights %}
       <div class="mb-3"><a href="/story/{{ story.id }}" class="fw-semibold">{{ story.title }}</a><p class="text-muted small mb-0">by {{ story.username }} · {{ story.category|title }}</p></div>
       {% endfor %}
-      {% else %}<p class="text-muted">No linked stories yet. Be the first to share local insight.</p>{% endif %}
+      {% else %}<p class="text-muted mt-2">No linked stories yet. Be the first to share local insight.</p>{% endif %}
     </div></div>
   </div>
   <div class="col-lg-4">
     <div class="card mb-4"><div class="card-body"><h5>Key strengths</h5><ul>{% for s in city.strengths %}<li>{{ s }}</li>{% endfor %}</ul><h5>Tradeoffs to watch</h5><ul>{% for t in city.tradeoffs %}<li>{{ t }}</li>{% endfor %}</ul></div></div>
-    <div class="card"><div class="card-body"><h5>City overview</h5><dl class="city-fact-list mb-0"><dt>Region</dt><dd>{{ city.region }}</dd><dt>Cost profile</dt><dd>{{ city.cost_level|title }}</dd><dt>Timezone</dt><dd>{{ city.timezone }}</dd><dt>Confidence</dt><dd>{{ city.confidence }}</dd></dl></div></div>
+    <div class="card"><div class="card-body"><h5>City overview</h5><dl class="city-fact-list mb-0"><dt>Region</dt><dd>{{ city.region }}</dd><dt>Cost profile</dt><dd>{{ city.cost_level|title }}</dd><dt>Timezone</dt><dd>{{ city.timezone }}</dd><dt>Confidence</dt><dd>{{ city.confidence }}</dd></dl><hr><a class="btn btn-outline-secondary btn-sm" href="/compare?city={{ city.slug }}&city=lisbon">Compare {{ city.name }} vs Lisbon</a></div></div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  (function () {
+    const canvas = document.getElementById('city-radar-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const labels = {{ city.dimensions|map(attribute='label')|list|tojson }};
+    const values = {{ city.dimensions|map(attribute='value')|list|tojson }};
+    const chartColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-secondary').trim() || '#77a6ff';
+
+    new Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          label: '{{ city.name }} score profile',
+          data: values,
+          fill: true,
+          borderWidth: 2,
+          borderColor: chartColor,
+          backgroundColor: 'rgba(119,166,255,0.20)',
+          pointBackgroundColor: '#ff5c8d',
+          pointBorderColor: '#ffffff',
+          pointHoverRadius: 5,
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20,
+              backdropColor: 'transparent',
+              color: '#9ba1c9'
+            },
+            angleLines: { color: 'rgba(155,161,201,0.35)' },
+            grid: { color: 'rgba(155,161,201,0.25)' },
+            pointLabels: {
+              color: '#f3f4ff',
+              font: { size: 12, weight: '600' }
+            }
+          }
+        }
+      }
+    });
+  })();
+</script>
 {% endblock %}

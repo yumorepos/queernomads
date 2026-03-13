@@ -27,3 +27,22 @@ def test_compare_skips_invalid_and_duplicate_inputs():
     resp = client.get("/compare?city=lisbon&city=lisbon&city=invalid-city")
     assert resp.status_code == 200
     assert b"skipped" in resp.data or b"Duplicate" in resp.data
+
+
+def test_city_detail_for_existing_and_new_city_slugs():
+    app = create_app({"TESTING": True, "DATABASE": "test_qn.db"})
+    client = app.test_client()
+
+    for slug in ["lisbon", "berlin", "barcelona", "taipei"]:
+        resp = client.get(f"/cities/{slug}")
+        assert resp.status_code == 200
+
+
+def test_prefilled_compare_demo_route():
+    app = create_app({"TESTING": True, "DATABASE": "test_qn.db"})
+    client = app.test_client()
+
+    resp = client.get("/compare?city=berlin&city=lisbon")
+    assert resp.status_code == 200
+    assert b"Berlin" in resp.data
+    assert b"Lisbon" in resp.data
