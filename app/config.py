@@ -18,7 +18,8 @@ def load_dotenv(dotenv_path: Path | None = None):
 
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-change-me")
-    DATABASE = os.environ.get("DATABASE_PATH", str(BASE_DIR / "queernomads.db"))
+    _default_db = Path("/tmp/queernomads.db") if os.environ.get("VERCEL") else (BASE_DIR / "queernomads.db")
+    DATABASE = os.environ.get("DATABASE_PATH", str(_default_db))
     APP_ENV = os.environ.get("FLASK_ENV", "development")
     TESTING = False
 
