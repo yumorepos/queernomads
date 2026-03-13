@@ -42,5 +42,71 @@
     "cost_level": "high",
     "timezone": "CET",
     "confidence": "high"
+  },
+  {
+    "slug": "barcelona",
+    "name": "Barcelona",
+    "country": "Spain",
+    "region": "Europe",
+    "summary": "Design-forward Mediterranean city with strong lifestyle appeal for remote workers.",
+    "queer_nomad_note": "Established queer nightlife and social hubs, with seasonal housing pressure in central districts.",
+    "cost_level": "medium",
+    "timezone": "CET",
+    "confidence": "medium"
+  },
+  {
+    "slug": "amsterdam",
+    "name": "Amsterdam",
+    "country": "Netherlands",
+    "region": "Europe",
+    "summary": "Highly connected, bike-friendly city with strong English accessibility.",
+    "queer_nomad_note": "Deep queer visibility and rights context, offset by premium rent levels.",
+    "cost_level": "high",
+    "timezone": "CET",
+    "confidence": "high"
+  },
+  {
+    "slug": "buenos-aires",
+    "name": "Buenos Aires",
+    "country": "Argentina",
+    "region": "Latin America",
+    "summary": "Culturally rich, neighborhood-driven city with strong creative energy.",
+    "queer_nomad_note": "Strong queer cultural scene and social warmth, with macroeconomic volatility to monitor.",
+    "cost_level": "low",
+    "timezone": "ART",
+    "confidence": "medium"
+  },
+  {
+    "slug": "montreal",
+    "name": "Montreal",
+    "country": "Canada",
+    "region": "North America",
+    "summary": "Bilingual, festival-heavy city with a collaborative startup and arts ecosystem.",
+    "queer_nomad_note": "Longstanding queer community institutions and inclusive social spaces; winters are a real lifestyle factor.",
+    "cost_level": "medium",
+    "timezone": "EST",
+    "confidence": "high"
+  },
+  {
+    "slug": "taipei",
+    "name": "Taipei",
+    "country": "Taiwan",
+    "region": "Asia",
+    "summary": "Safe, efficient city with exceptional transit and digital infrastructure.",
+    "queer_nomad_note": "One of Asia's strongest legal and cultural inclusion signals for queer residents and travelers.",
+    "cost_level": "medium",
+    "timezone": "CST",
+    "confidence": "high"
+  },
+  {
+    "slug": "melbourne",
+    "name": "Melbourne",
+    "country": "Australia",
+    "region": "Oceania",
+    "summary": "Coffee-and-culture capital with strong coworking and neighborhood diversity.",
+    "queer_nomad_note": "Inclusive social norms and active queer events, with higher baseline living costs.",
+    "cost_level": "high",
+    "timezone": "AEST",
+    "confidence": "high"
   }
 ]

@@ -514,3 +514,21 @@ small,
         padding-right: 0.4rem;
     }
 }
+
+
+.demo-cta-group {
+    border-top: 1px dashed rgba(119, 166, 255, 0.35);
+    padding-top: 0.9rem;
+}
+
+.radar-wrap {
+    position: relative;
+    height: 420px;
+    max-width: 720px;
+}
+
+@media (max-width: 768px) {
+    .radar-wrap {
+        height: 320px;
+    }
+}

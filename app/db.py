@@ -81,46 +81,63 @@ def _column_exists(db, table, column):
 
 
 def seed_db(db):
-    city_count = db.execute("SELECT COUNT(*) FROM cities").fetchone()[0]
-    if city_count == 0:
-        cities = json.loads((ROOT / "data/seed/cities.json").read_text(encoding="utf-8"))
-        for city in cities:
-            db.execute(
-                """INSERT INTO cities
-                (slug, name, country, region, summary, queer_nomad_note, cost_level, timezone, hero_image, confidence)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (
-                    city["slug"],
-                    city["name"],
-                    city["country"],
-                    city["region"],
-                    city["summary"],
-                    city["queer_nomad_note"],
-                    city["cost_level"],
-                    city["timezone"],
-                    city.get("hero_image", ""),
-                    city.get("confidence", "medium"),
-                ),
-            )
+    cities = json.loads((ROOT / "data/seed/cities.json").read_text(encoding="utf-8"))
+    for city in cities:
+        db.execute(
+            """INSERT INTO cities
+            (slug, name, country, region, summary, queer_nomad_note, cost_level, timezone, hero_image, confidence)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(slug) DO UPDATE SET
+                name = excluded.name,
+                country = excluded.country,
+                region = excluded.region,
+                summary = excluded.summary,
+                queer_nomad_note = excluded.queer_nomad_note,
+                cost_level = excluded.cost_level,
+                timezone = excluded.timezone,
+                hero_image = excluded.hero_image,
+                confidence = excluded.confidence""",
+            (
+                city["slug"],
+                city["name"],
+                city["country"],
+                city["region"],
+                city["summary"],
+                city["queer_nomad_note"],
+                city["cost_level"],
+                city["timezone"],
+                city.get("hero_image", ""),
+                city.get("confidence", "medium"),
+            ),
+        )
 
-    dim_count = db.execute("SELECT COUNT(*) FROM score_dimensions").fetchone()[0]
-    if dim_count == 0:
-        payload = json.loads((ROOT / "data/seed/scores.json").read_text(encoding="utf-8"))
-        for dim in payload["dimensions"]:
-            db.execute(
-                "INSERT INTO score_dimensions (key, label, description, weight_default) VALUES (?, ?, ?, ?)",
-                (dim["key"], dim["label"], dim["description"], dim["weight_default"]),
-            )
+    payload = json.loads((ROOT / "data/seed/scores.json").read_text(encoding="utf-8"))
+    for dim in payload["dimensions"]:
+        db.execute(
+            """INSERT INTO score_dimensions (key, label, description, weight_default)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(key) DO UPDATE SET
+                label = excluded.label,
+                description = excluded.description,
+                weight_default = excluded.weight_default""",
+            (dim["key"], dim["label"], dim["description"], dim["weight_default"]),
+        )
 
-        for score in payload["scores"]:
-            city_id = db.execute("SELECT id FROM cities WHERE slug = ?", (score["city_slug"],)).fetchone()[0]
-            dim_id = db.execute("SELECT id FROM score_dimensions WHERE key = ?", (score["dimension_key"],)).fetchone()[0]
-            db.execute(
-                """INSERT INTO city_scores
-                (city_id, dimension_id, score, evidence_note, source_count, confidence, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)""",
-                (city_id, dim_id, score["score"], score["evidence_note"], score["source_count"], score["confidence"]),
-            )
+    for score in payload["scores"]:
+        city_id = db.execute("SELECT id FROM cities WHERE slug = ?", (score["city_slug"],)).fetchone()[0]
+        dim_id = db.execute("SELECT id FROM score_dimensions WHERE key = ?", (score["dimension_key"],)).fetchone()[0]
+        db.execute(
+            """INSERT INTO city_scores
+            (city_id, dimension_id, score, evidence_note, source_count, confidence, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(city_id, dimension_id) DO UPDATE SET
+                score = excluded.score,
+                evidence_note = excluded.evidence_note,
+                source_count = excluded.source_count,
+                confidence = excluded.confidence,
+                updated_at = CURRENT_TIMESTAMP""",
+            (city_id, dim_id, score["score"], score["evidence_note"], score["source_count"], score["confidence"]),
+        )
 
     method_count = db.execute("SELECT COUNT(*) FROM methodology_notes").fetchone()[0]
     if method_count == 0:

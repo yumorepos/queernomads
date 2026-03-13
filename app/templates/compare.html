@@ -5,6 +5,7 @@
   <p class="section-heading">Side-by-side decisions</p>
   <h1 class="page-title">Which city fits you better, and why?</h1>
   <p class="page-intro">Compare 2 to 4 cities across the same scoring dimensions so tradeoffs are visible, not hidden.</p>
+  <p class="small text-muted mb-0">Need scoring context? <a href="/methodology">Review the methodology</a> before deciding.</p>
 </section>
 
 {% if warning %}<div class="alert alert-info">{{ warning }}</div>{% endif %}
@@ -100,12 +101,20 @@
 {% elif selected %}
 <div class="empty-state">
   <h5 class="mb-2">Add one more city to compare</h5>
-  <p class="mb-0">You selected {{ selected|length }} city. Choose at least 2 to reveal side-by-side winners and tradeoffs.</p>
+  <p class="mb-2">You selected {{ selected|length }} city. Choose at least 2 to reveal side-by-side winners and tradeoffs.</p>
+  <div class="d-flex justify-content-center flex-wrap gap-2">
+    <a class="btn btn-outline-primary btn-sm" href="/compare?city=berlin&city=lisbon">Try Berlin vs Lisbon</a>
+    <a class="btn btn-outline-primary btn-sm" href="/compare?city=montreal&city=taipei">Try Montreal vs Taipei</a>
+  </div>
 </div>
 {% else %}
 <div class="empty-state">
   <h5 class="mb-2">Build your first comparison brief</h5>
-  <p class="mb-0">Choose 2–4 cities you're considering to reveal tradeoffs and strengths side-by-side.</p>
+  <p class="mb-2">Choose 2–4 cities you're considering to reveal tradeoffs and strengths side-by-side.</p>
+  <div class="d-flex justify-content-center flex-wrap gap-2">
+    <a class="btn btn-outline-primary btn-sm" href="/compare?city=berlin&city=lisbon">Start with Berlin vs Lisbon</a>
+    <a class="btn btn-outline-primary btn-sm" href="/compare?city=amsterdam&city=bangkok">Start with Amsterdam vs Bangkok</a>
+  </div>
 </div>
 {% endif %}
 {% endblock %}
