@@ -59,6 +59,11 @@
 
       <p class="city-summary mb-0">{{ city.summary }}</p>
 
+      <div class="signal-row">
+        <span class="signal-chip"><i class="bi bi-stars"></i> Top signal: {{ city.strengths[0] if city.strengths else "Well-rounded profile" }}</span>
+        <span class="signal-chip muted"><i class="bi bi-graph-down"></i> Main tradeoff: {{ city.tradeoffs[0] if city.tradeoffs else "No major flag" }}</span>
+      </div>
+
       <div class="insight-block">
         <strong>Why it ranks well</strong>
         <p class="small text-muted mb-0 mt-1">{{ city.strengths|join(', ') }}</p>
@@ -76,7 +81,8 @@
 {% else %}
 <div class="empty-state">
   <h5 class="mb-2">No cities match this filter set yet</h5>
-  <p class="mb-0">Try lowering minimum score, widening region, or switching to a different preset to surface alternatives.</p>
+  <p class="mb-1">Try lowering minimum score, widening region, or switching to a different preset to surface alternatives.</p>
+  <p class="mb-0 small text-muted">Decision hint: start broad, then narrow once you find 3–5 candidate cities worth comparing.</p>
 </div>
 {% endif %}
 {% endblock %}

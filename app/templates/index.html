@@ -36,6 +36,10 @@
           </div>
         </div>
         <p class="city-summary mb-0">{{ city.summary }}</p>
+        <div class="signal-row">
+          <span class="signal-chip"><i class="bi bi-stars"></i> {{ city.strengths[0] if city.strengths else "Strong fundamentals" }}</span>
+          <span class="signal-chip muted"><i class="bi bi-graph-down"></i> {{ city.tradeoffs[0] if city.tradeoffs else "Balanced on tradeoffs" }}</span>
+        </div>
         <div class="insight-block">
           <strong>Strongest signals</strong>
           <p class="small mb-0 mt-1 text-muted">{{ city.strengths|join(', ') }}</p>

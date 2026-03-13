@@ -31,6 +31,22 @@
 </div>
 
 {% if selected|length >= 2 %}
+<div class="card mb-3">
+  <div class="card-body p-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div>
+        <div class="score-label mb-1">Comparison summary</div>
+        <p class="mb-0">
+          {% for city in selected %}
+            {{ city.name }} leads in <strong>{{ winner_counts[loop.index0] }}</strong> dimensions{% if not loop.last %} · {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+      <span class="meta-pill"><i class="bi bi-bar-chart-steps"></i> Highest score per row is highlighted</span>
+    </div>
+  </div>
+</div>
+
 <div class="row g-3 mb-3">
   {% for city in selected %}
   <div class="col-md-6 col-xl-3">
@@ -51,7 +67,7 @@
 <table class="table table-dark table-striped align-middle mb-0">
   <thead>
     <tr>
-      <th style="min-width: 180px;">Dimension</th>
+      <th style="min-width: 210px;">Dimension</th>
       {% for city in selected %}
       <th>{{ city.name }}</th>
       {% endfor %}
@@ -64,7 +80,10 @@
       {% for value in row.scores %}
       <td>
         {% if value is not none %}
-          <strong>{{ value|int }}</strong>
+          <strong class="d-inline-block mb-1">{{ value|int }}</strong>
+          <div class="compare-bar" role="img" aria-label="{{ row.label }} score {{ value|int }} out of 100">
+            <span class="{% if row.winner_index == loop.index0 %}is-winner{% endif %}" style="width: {{ value|int }}%"></span>
+          </div>
           {% if row.winner_index == loop.index0 %}
             <span class="winner-chip">Highest</span>
           {% endif %}
@@ -85,8 +104,8 @@
 </div>
 {% else %}
 <div class="empty-state">
-  <h5 class="mb-2">No cities selected yet</h5>
-  <p class="mb-0">Choose 2–4 cities above, then click <strong>Compare cities</strong> to see which option fits your priorities.</p>
+  <h5 class="mb-2">Build your first comparison brief</h5>
+  <p class="mb-0">Choose 2–4 cities you're considering to reveal tradeoffs and strengths side-by-side.</p>
 </div>
 {% endif %}
 {% endblock %}
