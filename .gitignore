@@ -3,3 +3,11 @@ __pycache__/
 *.db
 venv/
 .env
+
+.pytest_cache/
+*.log
+.vscode/
+.idea/
+*.egg-info/
+dist/
+build/
