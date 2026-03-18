@@ -1,5 +1,8 @@
 # 🌍 QueerNomads
 
+[![CI](https://github.com/yumorepos/queernomads/actions/workflows/ci.yml/badge.svg)](https://github.com/yumorepos/queernomads/actions/workflows/ci.yml)
+
+
 QueerNomads is a queer-first analytics product demo for digital nomads choosing where to live, work, and belong.
 
 It combines:
