@@ -10,4 +10,10 @@ venv/
 .idea/
 *.egg-info/
 dist/
-build/
+build/.env.*
+!.env.example
+*.sqlite3
+*.bak
+*.backup
+*.old
+.DS_Store
